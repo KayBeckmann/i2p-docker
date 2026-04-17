@@ -22,8 +22,6 @@ services:
       - i2p_net
     ports:
       - "5800:5800"
-    environment:
-      - VNC_LISTENING_PORT=5800
     volumes:
       - ./Settings/browser_profile:/config
       - ./Downloads:/storage/downloads
