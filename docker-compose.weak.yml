@@ -1,0 +1,35 @@
+services:
+  i2p:
+    image: geti2p/i2p:latest
+    container_name: i2p_router
+    networks:
+      - i2p_net
+    deploy:
+      resources:
+        limits:
+          memory: 1G # Schont deinen RAM
+    volumes:
+      - ./Settings/i2p_router:/i2p/.i2p
+      - ./Downloads:/i2p/i2p-downloads
+    ports:
+      - "7657:7657"
+    restart: unless-stopped
+
+  i2p_browser:
+    image: jlesage/firefox
+    container_name: i2p_firefox
+    networks:
+      - i2p_net
+    ports:
+      - "5800:5800"
+    environment:
+      - VNC_LISTENING_PORT=5800
+    volumes:
+      - ./Settings/browser_profile:/config
+      - ./Downloads:/storage/downloads
+    depends_on:
+      - i2p
+
+networks:
+  i2p_net:
+    driver: bridge

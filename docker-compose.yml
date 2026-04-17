@@ -1,0 +1,32 @@
+services:
+  i2p:
+    image: geti2p/i2p:latest
+    container_name: i2p_router
+    networks:
+      - i2p_net
+    volumes:
+      - ./Settings/i2p_router:/i2p/.i2p
+      - ./Downloads:/i2p/i2p-downloads
+    ports:
+      - "7657:7657" # Router Console
+      - "4444:4444" # HTTP Proxy (falls du ihn vom Host aus nutzen willst)
+    restart: unless-stopped
+
+  i2p_browser:
+    image: jlesage/firefox
+    container_name: i2p_firefox
+    networks:
+      - i2p_net
+    environment:
+      - DISPLAY=$DISPLAY
+      - KEEP_APP_RUNNING=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./Settings/browser_profile:/config
+      - ./Downloads:/storage/downloads
+    depends_on:
+      - i2p
+
+networks:
+  i2p_net:
+    driver: bridge
