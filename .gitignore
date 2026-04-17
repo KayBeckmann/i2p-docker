@@ -1,0 +1,10 @@
+# Docker Daten
+Settings/
+Downloads/
+
+# OS Dateien
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
